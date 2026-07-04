@@ -29,17 +29,19 @@ describe("statusLine", () => {
 });
 
 describe("runUrl", () => {
-  it("swaps api. → app. and joins", () => {
-    expect(runUrl("https://api.controldeck.dev", "wfl_1", "run_1")).toBe(
+  it("strips /api suffix and joins", () => {
+    expect(runUrl("https://app.controldeck.dev/api", "wfl_1", "run_1")).toBe(
       "https://app.controldeck.dev/workflows/wfl_1/runs/run_1",
     );
   });
-  it("handles staging api-dev", () => {
-    expect(runUrl("https://api-dev.controldeck.dev/", "wfl_1", "run_1")).toBe(
-      // api-dev doesn't match /api\./ so we fall through — swap is a
-      // best-effort; test pins the current behavior so it's a conscious
-      // change if we later care about staging.
-      "https://api-dev.controldeck.dev/workflows/wfl_1/runs/run_1",
+  it("tolerates trailing slash on the base", () => {
+    expect(runUrl("https://app.controldeck.dev/api/", "wfl_1", "run_1")).toBe(
+      "https://app.controldeck.dev/workflows/wfl_1/runs/run_1",
+    );
+  });
+  it("leaves bare origins alone (staging override)", () => {
+    expect(runUrl("https://staging.example", "wfl_1", "run_1")).toBe(
+      "https://staging.example/workflows/wfl_1/runs/run_1",
     );
   });
 });

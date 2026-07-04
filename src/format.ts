@@ -69,12 +69,14 @@ export function commentMarker(runId: string): string {
   return `<!-- ci-gate:${runId} -->`;
 }
 
-export function runUrl(apiOrigin: string, workflowId: string, runId: string): string {
-  // The API surface is api.controldeck.dev; the UI lives at app.controldeck.dev.
-  // We derive the app origin from the api origin so staging (api-dev →
-  // app-dev) picks up automatically without a second input knob.
-  const app = apiOrigin.replace(/^https?:\/\/api\./, "https://app.");
-  return `${app.replace(/\/+$/, "")}/workflows/${workflowId}/runs/${runId}`;
+export function runUrl(apiBase: string, workflowId: string, runId: string): string {
+  // The API base is `<app-origin>/api` in production. Strip the `/api`
+  // suffix (if present) and any trailing slash to get the app origin the
+  // human UI runs on. If a caller overrides `api-url` to a bare origin
+  // for staging, we leave it alone.
+  const trimmed = apiBase.replace(/\/+$/, "");
+  const appOrigin = trimmed.endsWith("/api") ? trimmed.slice(0, -"/api".length) : trimmed;
+  return `${appOrigin}/workflows/${workflowId}/runs/${runId}`;
 }
 
 // Runtime terminal-state coercion. `RunDetail.status` is the wire type

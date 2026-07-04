@@ -17,9 +17,9 @@ inputs:
     required: false
     default: ${{ github.ref_name }}
   api-url:
-    description: "ControlDeck API base URL. Override to point at staging."
+    description: "ControlDeck API base URL (includes the /api prefix). Override to point at staging."
     required: false
-    default: "https://api.controldeck.dev"
+    default: "https://app.controldeck.dev/api"
   comment:
     description: "Post a summary comment on the PR when the run completes. Requires pull-requests:write."
     required: false
@@ -28,6 +28,10 @@ inputs:
     description: "Wall-clock timeout for the ControlDeck run (minutes)."
     required: false
     default: "10"
+  github-token:
+    description: "Token used to post the PR summary comment when comment=true. Defaults to the workflow's GITHUB_TOKEN."
+    required: false
+    default: ${{ github.token }}
 
 outputs:
   status:

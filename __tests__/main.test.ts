@@ -59,7 +59,7 @@ describe("run", () => {
       workflow: "secrets-scan",
       token: "cdk_test",
       branch: "main",
-      "api-url": "https://api.controldeck.dev",
+      "api-url": "https://app.controldeck.dev/api",
       comment: "false",
       "timeout-minutes": "10",
     });

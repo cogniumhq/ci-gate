@@ -30,10 +30,10 @@ jobs:
 | `workflow` | yes | — | Workflow name defined in ControlDeck (e.g. `secrets-scan`) |
 | `token` | yes | — | ControlDeck admin API key (`cdk_*`), issued in the Guardrails console |
 | `branch` | no | `${{ github.ref_name }}` | Branch to scan |
-| `api-url` | no | `https://api.controldeck.dev` | API base URL (override for staging) |
+| `api-url` | no | `https://app.controldeck.dev/api` | API base URL (override for staging) |
 | `comment` | no | `false` | Post a summary comment on the PR |
 | `timeout-minutes` | no | `10` | Overall wall-clock timeout |
-| `github-token` | no | `${{ github.token }}` | Token for posting the PR comment |
+| `github-token` | no | `${{ github.token }}` | Token used to post the PR summary comment |
 
 ## Outputs
 

@@ -61,7 +61,8 @@ function readInputs(): RunInputs {
   const workflow = core.getInput("workflow", { required: true });
   const token = core.getInput("token", { required: true });
   const branchInput = core.getInput("branch");
-  const apiUrl = core.getInput("api-url") || "https://api.controldeck.dev";
+  const apiUrl =
+    core.getInput("api-url") || "https://app.controldeck.dev/api";
   const commentInput = core.getInput("comment");
   const timeoutInput = core.getInput("timeout-minutes");
 
