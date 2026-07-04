@@ -1,0 +1,30 @@
+name: release
+on:
+  release:
+    types: [published]
+
+# Moves the `vN` major-version tag to the released tag so users pinning
+# `uses: cogniumhq/ci-gate@v1` pick up patches. Semver tags stay pinned.
+jobs:
+  move-major-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Move major tag
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          if ! [[ "$RELEASE_TAG" =~ ^v([0-9]+)\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::warning::Tag $RELEASE_TAG is not a semver release; skipping major-tag move."
+            exit 0
+          fi
+          MAJOR="v${BASH_REMATCH[1]}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -fa "$MAJOR" -m "Move $MAJOR to $RELEASE_TAG"
+          git push origin "$MAJOR" --force

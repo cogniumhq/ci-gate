@@ -1,0 +1,44 @@
+name: "ControlDeck CI Gate"
+description: "Run a ControlDeck workflow on the current commit and gate the PR on its result."
+author: "Cognium"
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  workflow:
+    description: "Name of the ControlDeck workflow to run (e.g. 'secrets-scan')."
+    required: true
+  token:
+    description: "ControlDeck admin-issued API key (cdk_*). Create one in app.controldeck.dev → Admin → API Keys."
+    required: true
+  branch:
+    description: "Branch to scan. Defaults to the ref that triggered the workflow."
+    required: false
+    default: ${{ github.ref_name }}
+  api-url:
+    description: "ControlDeck API base URL. Override to point at staging."
+    required: false
+    default: "https://api.controldeck.dev"
+  comment:
+    description: "Post a summary comment on the PR when the run completes. Requires pull-requests:write."
+    required: false
+    default: "false"
+  timeout-minutes:
+    description: "Wall-clock timeout for the ControlDeck run (minutes)."
+    required: false
+    default: "10"
+
+outputs:
+  status:
+    description: "Terminal status of the run: done | failed | cancelled | timeout."
+  run-id:
+    description: "ControlDeck run id (run_*)."
+  run-url:
+    description: "URL of the run in the ControlDeck web app."
+  pr-url:
+    description: "URL of the PR opened by the workflow (empty if none)."
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
