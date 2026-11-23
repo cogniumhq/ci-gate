@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "tierA": [
+    "dist/",
+    "action.yml",
+    ".github/workflows/release.yml"
+  ]
+}
