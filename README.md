@@ -1,3 +1,5 @@
+> **Archived.** This action is no longer maintained. To check pull requests, use the `cognium` GitHub Action in [cogniumhq/cognium-dev](https://github.com/cogniumhq/cognium-dev) (`uses: cogniumhq/cognium-dev/packages/cli@<tag>`), which runs [`cognium`](https://www.npmjs.com/package/cognium) and uploads SARIF to code scanning, or run workflows from ControlDeck directly.
+
 # ControlDeck CI Gate
 
 GitHub Action that runs a [ControlDeck](https://controldeck.dev)
